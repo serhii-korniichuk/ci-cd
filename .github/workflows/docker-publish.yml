@@ -11,6 +11,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Run htmlhint
+        run: htmlhint index.html
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:

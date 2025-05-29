@@ -67,18 +67,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Login to Docker Hub
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install htmlhint
+        run: npm install -g htmlhint
+
+      - name: Run htmlhint
+        run: htmlhint index.html
+
+      - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push image
+      - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: .
           push: true
-          tags: skorniichuk/my-ci-cd-app:latest
+          tags: skorniichuk/ci-cd:latest
+
 ```
 
 ## 🔁 Auto-Update with Watchtower

@@ -27,67 +27,60 @@ This project demonstrates a complete CI/CD pipeline that deploys a static HTML +
 3. Watchtower checks for updates every 60 seconds
 4. If there's a new image, it automatically restarts the container
 
----
-
 # 🚀 Guide
 
 This guide helps you set up fully automated deployment of a web application from GitHub to AWS EC2 using Docker and Watchtower.
 
----
 
-## ✅ 1. Connect to EC2 via SSH
+### ✅ 1. Connect to EC2 via SSH
 
-🔹 **What you need:**
+🔹 What you need:
 
 - `.pem` SSH key file (e.g., `YOUR_KEY.pem`)
 - Public IPv4 address from AWS EC2
 
-🔹 **Connect via terminal:**
+🔹 Connect via terminal:
 
 ```bash
 sudo ssh -i /path/to/KPI_LAB_KEY.pem ubuntu@<EC2_IP>
 ```
 
----
+### ✅ 2. Check Docker installation
 
-## ✅ 2. Check Docker installation
-
-🔹 **Check Docker version:**
+🔹 Check Docker version:
 
 ```bash
 docker --version
 ```
 
-💡 **If not installed:**
+💡 If not installed:
 
 ```bash
 sudo apt update
 sudo apt install docker.io -y
 ```
 
-🔹 **List running containers:**
+🔹 List running containers:
 
 ```bash
 sudo docker ps
 ```
 
----
+### ✅ 3. Run container from Docker Hub
 
-## ✅ 3. Run container from Docker Hub
-
-💡 **Remove old container if it exists:**
+💡 Remove old container if it exists:
 
 ```bash
 sudo docker rm -f web-ci-cd-app
 ```
 
-🔹 **Pull the latest image:**
+🔹 Pull the latest image:
 
 ```bash
 sudo docker pull skorniichuk/ci-cd:latest
 ```
 
-🔹 **Run the container with Watchtower support:**
+🔹 Run the container with Watchtower support:
 
 ```bash
 sudo docker run -d \
@@ -97,17 +90,15 @@ sudo docker run -d \
   skorniichuk/ci-cd:latest
 ```
 
----
+### ✅ 4. Launch Watchtower
 
-## ✅ 4. Launch Watchtower
-
-💡 **Remove old container if it exists:**
+💡 Remove old container if it exists:
 
 ```bash
 sudo docker rm -f watchtower
 ```
 
-🔹 **Run the Watchtower:**
+🔹 Run the Watchtower:
 
 ```bash
 sudo docker run -d \
@@ -118,16 +109,14 @@ sudo docker run -d \
   --label-enable
 ```
 
----
+### ✅ 5. Verify everything
 
-## ✅ 5. Verify everything
-
-🔹 **Check containers:**
+🔹 Check containers:
 
 ```bash
 sudo docker ps
 ```
-🔹 **Check image:**
+🔹 Check image:
 
 ```bash
 sudo docker inspect web-ci-cd-app | grep Image
@@ -139,9 +128,7 @@ sudo docker inspect web-ci-cd-app | grep Image
 "Image": "skorniichuk/ci-cd:latest"
 ```
 
----
-
-## ✅ 6. Test your app in the browser
+### ✅ 6. Test your app in the browser
 
 Visit:
 
@@ -149,6 +136,4 @@ Visit:
 http://<EC2_IP>/
 ```
 
----
-
-## 🎉 That's it! You now have a fully automated CI/CD pipeline with no manual server interaction after commit.
+### 🎉 That's it! You now have a fully automated CI/CD pipeline with no manual server interaction after commit.

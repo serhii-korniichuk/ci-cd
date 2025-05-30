@@ -1,113 +1,154 @@
 
 # CI/CD Deployment to AWS with GitHub Actions, Docker and Watchtower
 
-This project demonstrates a complete CI/CD pipeline that deploys a static HTML+CSS website to AWS EC2 using Docker, GitHub Actions and Watchtower.
+This project demonstrates a complete CI/CD pipeline that deploys a static HTML + CSS website to AWS EC2 using Docker, GitHub Actions and Watchtower.
 
 ## 🚀 Technologies Used
 
 - **Cloud Platform**: AWS EC2 (Free Tier)
 - **CI/CD**: GitHub Actions
 - **Containerization**: Docker
-- **Auto-updates**: Watchtower
 - **Container Registry**: Docker Hub
-- **Local Dev Tool**: OrbStack (for macOS)
+- **Auto-updates**: Watchtower
 
 ## 📁 Project Structure
 
 ```
-/my-app
+/ci-cd
 ├── index.html
 ├── styles.css
 └── Dockerfile
 ```
 
-## 🧩 Dockerfile
+## 💎 How it works
 
-```Dockerfile
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-```
+1. You push changes to GitHub
+2. GitHub Actions builds and pushes the image to Docker Hub
+3. Watchtower checks for updates every 60 seconds
+4. If there's a new image, it automatically restarts the container
 
-## ✅ Deployment Steps
+---
 
-1. **Create EC2 instance** (Ubuntu, t2.micro) on AWS with SSH access and open ports 22 (SSH) and 80 (HTTP).
-2. **Install Docker**:
-    ```bash
-    sudo apt update
-    sudo apt install docker.io -y
-    ```
-3. **Build and run your container locally (OrbStack)**:
-    ```bash
-    docker build -t ci-cd .
-    docker run -d -p 80:80 ci-cd
-    ```
+# 🚀 Guide
 
-4. **Push to GitHub and configure CI pipeline**.
+This guide helps you set up fully automated deployment of a web application from GitHub to AWS EC2 using Docker and Watchtower.
 
-## 🔐 Docker Hub Authentication
+---
 
-- Use **Access Token** instead of password.
-- Add GitHub repository secrets:
-    - `DOCKER_USERNAME`: your Docker Hub username
-    - `DOCKER_PASSWORD`: Access Token (from Docker Hub > Security)
+## ✅ 1. Connect to EC2 via SSH
 
-## 🧪 GitHub Actions Workflow (`.github/workflows/docker-publish.yml`)
+🔹 **What you need:**
 
-```yaml
-name: Build and Push Docker Image
+- `.pem` SSH key file (e.g., `YOUR_KEY.pem`)
+- Public IPv4 address from AWS EC2
 
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-
-      - name: Install htmlhint
-        run: npm install -g htmlhint
-
-      - name: Run htmlhint
-        run: htmlhint index.html
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: true
-          tags: skorniichuk/ci-cd:latest
-
-```
-
-## 🔁 Auto-Update with Watchtower
-
-On the EC2 instance, run:
+🔹 **Connect via terminal:**
 
 ```bash
-docker run -d   --name watchtower   -v /var/run/docker.sock:/var/run/docker.sock   containrrr/watchtower
+sudo ssh -i /path/to/KPI_LAB_KEY.pem ubuntu@<EC2_IP>
 ```
 
-## 🔄 What Happens
+---
 
-1. You commit to `main`.
-2. GitHub builds & pushes the Docker image to Docker Hub.
-3. Watchtower on your EC2 pulls and restarts the updated container automatically.
+## ✅ 2. Check Docker installation
 
-## 📌 Result
+🔹 **Check Docker version:**
 
-- Fully automated CI/CD pipeline with secure token-based auth.
-- Deployment with no manual server interaction after commit.
+```bash
+docker --version
+```
+
+💡 **If not installed:**
+
+```bash
+sudo apt update
+sudo apt install docker.io -y
+```
+
+🔹 **List running containers:**
+
+```bash
+sudo docker ps
+```
+
+---
+
+## ✅ 3. Run container from Docker Hub
+
+💡 **Remove old container if it exists:**
+
+```bash
+sudo docker rm -f web-ci-cd-app
+```
+
+🔹 **Pull the latest image:**
+
+```bash
+sudo docker pull skorniichuk/ci-cd:latest
+```
+
+🔹 **Run the container with Watchtower support:**
+
+```bash
+sudo docker run -d \
+  --name web-ci-cd-app \
+  --label com.centurylinklabs.watchtower.enable=true \
+  -p 80:80 \
+  skorniichuk/ci-cd:latest
+```
+
+---
+
+## ✅ 4. Launch Watchtower
+
+💡 **Remove old container if it exists:**
+
+```bash
+sudo docker rm -f watchtower
+```
+
+🔹 **Run the Watchtower:**
+
+```bash
+sudo docker run -d \
+  --name watchtower \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  containrrr/watchtower \
+  --interval 60 \
+  --label-enable
+```
+
+---
+
+## ✅ 5. Verify everything
+
+🔹 **Check containers:**
+
+```bash
+sudo docker ps
+```
+🔹 **Check image:**
+
+```bash
+sudo docker inspect web-ci-cd-app | grep Image
+```
+
+💡 You should see:
+
+```
+"Image": "skorniichuk/ci-cd:latest"
+```
+
+---
+
+## ✅ 6. Test your app in the browser
+
+Visit:
+
+```
+http://<EC2_IP>/
+```
+
+---
+
+## 🎉 That's it! You now have a fully automated CI/CD pipeline with no manual server interaction after commit.

@@ -146,6 +146,8 @@ sudo docker inspect web-ci-cd-app | grep Image
 http://<EC2_IP>/
 ```
 
+---
+
 ### 🎉 That's it! 
 
 You now have a fully automated CI/CD pipeline with no manual server interaction after commit.

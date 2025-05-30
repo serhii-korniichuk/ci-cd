@@ -32,7 +32,7 @@ This project demonstrates a complete CI/CD pipeline that deploys a static HTML +
 This guide helps you set up fully automated deployment of a web application from GitHub to AWS EC2 using Docker and Watchtower.
 
 
-### ✅ 1. Connect to EC2 via SSH
+### 1️⃣ Connect to EC2 via SSH
 
 🔹 What you need:
 
@@ -45,7 +45,9 @@ This guide helps you set up fully automated deployment of a web application from
 sudo ssh -i /path/to/KPI_LAB_KEY.pem ubuntu@<EC2_IP>
 ```
 
-### ✅ 2. Check Docker installation
+---
+
+### 2️⃣ Check Docker installation
 
 🔹 Check Docker version:
 
@@ -66,7 +68,7 @@ sudo apt install docker.io -y
 sudo docker ps
 ```
 
-### ✅ 3. Run container from Docker Hub
+### 3️⃣ Run container from Docker Hub
 
 💡 Remove old container if it exists:
 
@@ -90,7 +92,7 @@ sudo docker run -d \
   skorniichuk/ci-cd:latest
 ```
 
-### ✅ 4. Launch Watchtower
+### 4️⃣ Launch Watchtower
 
 💡 Remove old container if it exists:
 
@@ -109,7 +111,7 @@ sudo docker run -d \
   --label-enable
 ```
 
-### ✅ 5. Verify everything
+### 5️⃣ Verify everything
 
 🔹 Check containers:
 
@@ -128,7 +130,7 @@ sudo docker inspect web-ci-cd-app | grep Image
 "Image": "skorniichuk/ci-cd:latest"
 ```
 
-### ✅ 6. Test your app in the browser
+### 6️⃣ Test your app in the browser
 
 Visit:
 
@@ -136,4 +138,6 @@ Visit:
 http://<EC2_IP>/
 ```
 
-### 🎉 That's it! You now have a fully automated CI/CD pipeline with no manual server interaction after commit.
+### 🎉 That's it! 
+
+You now have a fully automated CI/CD pipeline with no manual server interaction after commit.

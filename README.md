@@ -21,6 +21,7 @@ ci-cd/
 ├── docker/
 │   └── Dockerfile             # Dockerfile for building the app image
 ├── index.html                 # Example web page
+├── styles.css                 # CSS styles
 └── README.md                  # Project instructions
 ```
 

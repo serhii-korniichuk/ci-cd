@@ -67,7 +67,8 @@ sudo apt install docker.io -y
 ```bash
 sudo docker ps
 ```
-___
+
+***
 
 ### 3️⃣ Run container from Docker Hub
 

@@ -14,15 +14,19 @@ This project demonstrates a complete CI/CD pipeline that deploys a static HTML +
 ## 📁 Project Structure
 
 ```
-/ci-cd
-├── index.html
-├── styles.css
-└── Dockerfile
+ci-cd/
+├── .github/
+│   └── workflows/
+│       └── docker-image.yml   # GitHub Actions workflow
+├── docker/
+│   └── Dockerfile             # Dockerfile for building the app image
+├── index.html                 # Example web page
+└── README.md                  # Project instructions
 ```
 
 ## 📦 Docker Hub Image
 
-**Repository:** [skorniichuk/ci-cd](https://hub.docker.com/r/skorniichuk/ci-cd)
+Repository: [skorniichuk/ci-cd](https://hub.docker.com/r/skorniichuk/ci-cd)
 
 ## 💎 How it works
 

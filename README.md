@@ -68,7 +68,7 @@ sudo apt install docker.io -y
 sudo docker ps
 ```
 
-***
+---
 
 ### 3️⃣ Run container from Docker Hub
 
@@ -94,6 +94,8 @@ sudo docker run -d \
   skorniichuk/ci-cd:latest
 ```
 
+---
+
 ### 4️⃣ Launch Watchtower
 
 💡 Remove old container if it exists:
@@ -112,6 +114,8 @@ sudo docker run -d \
   --interval 60 \
   --label-enable
 ```
+
+---
 
 ### 5️⃣ Verify everything
 
@@ -132,9 +136,11 @@ sudo docker inspect web-ci-cd-app | grep Image
 "Image": "skorniichuk/ci-cd:latest"
 ```
 
-### 6️⃣ Test your app in the browser
+---
 
-Visit:
+### 6️⃣ Test your app
+
+🔹 Open in browser:
 
 ```
 http://<EC2_IP>/

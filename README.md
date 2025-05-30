@@ -3,7 +3,7 @@
 
 This project demonstrates a complete CI/CD pipeline that deploys a static HTML + CSS website to AWS EC2 using Docker, GitHub Actions and Watchtower.
 
-## 🚀 Technologies Used
+## ⚙️ Technologies Used
 
 - **Cloud Platform**: AWS EC2 (Free Tier)
 - **CI/CD**: GitHub Actions
@@ -20,6 +20,10 @@ This project demonstrates a complete CI/CD pipeline that deploys a static HTML +
 └── Dockerfile
 ```
 
+## 📦 Docker Hub Image
+
+**Repository:** [skorniichuk/ci-cd](https://hub.docker.com/r/skorniichuk/ci-cd)
+
 ## 💎 How it works
 
 1. You push changes to GitHub
@@ -27,7 +31,7 @@ This project demonstrates a complete CI/CD pipeline that deploys a static HTML +
 3. Watchtower checks for updates every 60 seconds
 4. If there's a new image, it automatically restarts the container
 
-# 🚀 Guide
+## 🚀 Guide
 
 This guide helps you set up fully automated deployment of a web application from GitHub to AWS EC2 using Docker and Watchtower.
 
@@ -151,3 +155,7 @@ http://<EC2_IP>/
 ### 🎉 That's it! 
 
 You now have a fully automated CI/CD pipeline with no manual server interaction after commit.
+
+## 📄 License
+
+MIT License
